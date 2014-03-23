@@ -1,0 +1,10 @@
+<% if (session.authenticatedPublisher) { %>
+<div class="navbar-right">            
+  <a class="btn btn-default navbar-btn navbar-right" href="/publisher/logout">Log Out</a>
+</div>
+<% } %>
+<% if (session.authenticatedAdvertiser) { %>
+<div class="navbar-right">                        
+  <a class="btn btn-default navbar-btn navbar-right" href="/advertiser/logout">Log Out</a>
+</div>              
+<% } %>                          

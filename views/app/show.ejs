@@ -1,0 +1,10 @@
+<div class='container'>
+  <h1> Name : <%= app.app_name %> </h1>
+  <h2> Description : <%= app.app_info %> </h2>
+  <h3> Categories : </h3>
+  <h4>
+    <% for (i in categories) {%>
+    <span class="badge"> <%= categories[i].category %> </span>
+    <% } %>
+  </h4>
+</div>

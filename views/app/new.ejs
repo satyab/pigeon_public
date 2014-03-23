@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+      <h1 class="text-center login-title">Create an App!</h1>
+      <div class="account-wall">
+        <img class="profile-img" src="/images/signin-photo.jpg" alt="">
+        <% if(flash && flash.err) { %>
+        <p class="text-center text-danger">
+          <%= flash.err %>
+        </p>        
+        <% } %>
+        <form class="form-signin form-group" action="/app/create" method="POST">
+          <input id="app_name" name="app_name" type="text" class="form-control" placeholder="App Name" required autofocus>
+          <input id="app_info" name="app_info" type="text" class="form-control" placeholder="App Description">
+          <div class="input-group form-group">
+            <select name="categories" class="multiselect" multiple="multiple">
+              <% for ( i in categories ) { %>
+              <option value="<%=categories[i].id%>"><%=categories[i].category%></option>
+              <%}%>
+            </select>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Create App</button>
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" />          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

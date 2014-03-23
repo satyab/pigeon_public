@@ -1,0 +1,9 @@
+<ul class="nav navbar-nav">
+<% if (session.authenticatedPublisher) { %>
+<%- partial('menu/publisher')%>
+<% } %>
+<% if (session.authenticatedAdvertiser) { %>
+<%- partial('menu/advertiser')%>
+<% } %>                          
+</ul>
+
