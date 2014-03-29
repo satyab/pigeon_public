@@ -8,8 +8,6 @@
 
 module.exports = {
 
-  tableName: 'pub_user',
-
   attributes: {
     username: 'string',
     fullname: 'string',

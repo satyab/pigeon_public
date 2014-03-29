@@ -16,7 +16,7 @@ module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'mysql',
+  'default': 'mongo',
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data is preserved when the server shuts down)
@@ -27,11 +27,17 @@ module.exports.adapters = {
   // MySQL is the world's most popular relational database.
   // Learn more: http://en.wikipedia.org/wiki/MySQL
   mysql: {
-
     module: 'sails-mysql',
     host: '172.24.49.163',
     // Psst.. You can put your password in config/local.js instead
     // so you don't inadvertently push it up if you're using version control
     database: 'pigeondb'
+  },
+
+  mongo: {
+    module: 'sails-mongo',
+    host: '172.24.49.163',
+    database: 'pigeondb',
+    schema: true
   }
 };

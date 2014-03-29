@@ -8,8 +8,6 @@
 
 module.exports = {
 
-  tableName: 'pub_app_category',
-  
   attributes: {
     app_id: 'integer',
     category_id: 'integer'

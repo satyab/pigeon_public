@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'ad_banner',
   attributes: {
   	
   	/* e.g.

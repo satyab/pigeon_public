@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'zone_type',
   attributes: {
   	
   	/* e.g.

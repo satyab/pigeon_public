@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'ad_revenue_type',
   attributes: {
   	
   	/* e.g.

@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'ad_users',
   attributes: {
     email: {
       type: 'email',

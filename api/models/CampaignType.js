@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'ad_campaign_type',
   attributes: {
   	
   	/* e.g.

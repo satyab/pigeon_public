@@ -8,8 +8,6 @@
 
 module.exports = {
 
-  tableName: 'category_type',
-  
   attributes: {
     id: 'integer',
     category: 'string',

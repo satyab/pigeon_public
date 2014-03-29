@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'pub_app_zone',
   attributes: {
   	
   	/* e.g.

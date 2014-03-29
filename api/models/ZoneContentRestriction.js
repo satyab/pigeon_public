@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'zone_content_restriction',
   attributes: {
   	
   	/* e.g.

@@ -1,2 +1,2 @@
-# adpush
+# Pigeon
 ### a Sails application

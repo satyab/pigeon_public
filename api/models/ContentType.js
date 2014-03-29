@@ -8,7 +8,6 @@
 
 module.exports = {
 
-  tableName: 'ad_content_type',
   attributes: {
   	
   	/* e.g.
