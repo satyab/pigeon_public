@@ -11,7 +11,7 @@ module.exports = {
   attributes: {
     id: 'integer',
     category: 'string',
-    other_info: 'string'
+    info: 'string'
   }
 
 };

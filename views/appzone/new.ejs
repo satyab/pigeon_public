@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+      <h1 class="text-center login-title">Create a Zone!</h1>
+      <div class="account-wall">
+        <% if(flash && flash.err) { %>
+        <p class="text-center text-danger">
+          <%= flash.err %>
+        </p>        
+        <% } %>
+        <form class="form-signin form-group" action="/appzone/create" method="POST">
+          <input id="name" name="name" type="text" class="form-control" placeholder="Zone Name" required autofocus>
+          <input id="info" name="info" type="text" class="form-control" placeholder="Zone Description">
+          <div class="form-group">
+            <select name="appId" class="form-control">
+              <% for ( i in apps ) { %>
+              <option value="<%=apps[i].id%>"><%=apps[i].app_name%></option>
+              <%}%>
+            </select>
+          </div>          
+          <div class="form-group">
+            <select name="zoneId" class="form-control">
+              <% for ( i in zones ) { %>
+              <option value="<%=zones[i].id%>"><%=zones[i].name%></option>
+              <%}%>
+            </select>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Create Zone</button>
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" />          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

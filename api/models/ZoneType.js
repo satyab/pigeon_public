@@ -9,11 +9,10 @@
 module.exports = {
 
   attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
+    name: 'string',
+    height: 'integer',
+    width: 'integer',
+    info: 'string'
   }
 
 };

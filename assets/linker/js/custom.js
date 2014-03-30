@@ -7,7 +7,7 @@ $(document).ready(function() {
     maxHeight: 200,
     buttonText: function(options) {
       if (options.length == 0) {
-        return 'Select App Category <b class="caret"></b>';
+        return 'Select Option <b class="caret"></b>';
       }
       else if (options.length > 2) {
         return options.length + ' selected <b class="caret"></b>';

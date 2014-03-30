@@ -10,7 +10,7 @@ module.exports = {
 
   attributes: {
     pub_id: {
-      type: 'integer',
+      type: 'string',
       required: true
     },
     app_name: {
