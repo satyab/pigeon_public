@@ -40,7 +40,15 @@ module.exports.policies = {
     '*': ['isAuthenticatedPublisher', 'flash']
   },
 
+  appzone: {
+    '*': ['isAuthenticatedPublisher', 'flash']
+  },
+
   campaign: {
+    '*': ['isAuthenticatedAdvertiser', 'flash']
+  },
+
+  banner: {
     '*': ['isAuthenticatedAdvertiser', 'flash']
   }
 

@@ -9,8 +9,8 @@
 module.exports = {
 
   attributes: {
-    app_id: 'integer',
-    category_id: 'integer'
+    app_id: 'string',
+    category_id: 'string'
   }
 
 };

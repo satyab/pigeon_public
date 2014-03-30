@@ -9,7 +9,15 @@
 module.exports = {
 
   attributes: {
-    
+    name: 'string',
+    advId: 'string',
+    revenueTypeId: 'string',
+    freuencyCap: 'integer',
+    priority: 'integer',
+    startDate: 'date',
+    endDate: 'date',
+    limit: 'integer',
+    categories: 'array',
+    remainingLimit: 'integer'
   }
-
 };

@@ -15,11 +15,31 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var async = require('async');
 module.exports = {
     
+  'new': function(req, res, next) {
+    async.parallel({
+      types: function(cb) {
+        ContentType.find()
+        .done(function(err, types) {
+          if(err) return next(err);
+          cb(null, types);
+        })
+      },
+      zones: function(cb) {
+        ZoneType.find()
+        .done(function(err, zones) {
+          if(err) return next(err);
+          cb(null, zones);
+        })
+      }
+    }, function(err, result) {
+      if (err) return next(err);
+      res.view(result);
+    });
+  },
   
-
-
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to BannerController)

@@ -15,128 +15,75 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var async = require('async');
 module.exports = {
     
   
-  /**
-   * Action blueprints:
-   *    `/campaign/campaignType`
-   */
-   campaignType: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
+  'new': function(req, res, next) {
+    async.parallel({
+      revenueTypes: function(cb) {
+        RevenueType.find()
+        .exec(function(err, revenueTypes) {
+          if (err) return next(err);
+          cb(null, revenueTypes);
+        });
+      },
+      categories: function(cb) {
+        CategoryType.find()
+          .exec(function(err, categories) {
+            if (err) return next(err);
+            cb(null, categories);            
+          });
+      }
+    }, function(err, result) {
+      if (err) return next(err);
+      return res.view(result);
     });
   },
 
+  create: function(req, res, next) {
+    campaignObj = {
+      name: req.param('name'),
+      revenueTypeId: req.param('revenueTypeId'),
+      freuencyCap: req.param('freuencyCap'),
+      priority: req.param('priority'),
+      startDate: req.param('startDate'),
+      endDate: req.param('endDate'),
+      limit: req.param('limit'),
+      categories: req.param('categories'),
+      advId: req.session.Advertiser.id
+    };
 
-  /**
-   * Action blueprints:
-   *    `/campaign/contentType`
-   */
-   contentType: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
+    Campaign.create(campaignObj, function(err, campaign) {
+      if (err) {
+        console.log(err);
+        req.session.flash = {
+          err: err
+        };
+
+        return res.redirect('/campaign/new');
+      }      
+      campaign.save(function(err, campaign) {
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+        res.redirect('/campaign/show/' + campaign.id);
+      });
     });
   },
 
-
-  /**
-   * Action blueprints:
-   *    `/campaign/revenueType`
-   */
-   revenueType: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
+  show: function(req, res, next) {
+    Campaign.findOne({
+      id: req.param('id'),
+      advId: req.session.Advertiser.id
+    }).done(function(err, campaign) {
+      if (err) return next(err);
+      if (!campaign) return next();
+      res.send(campaign);
     });
   },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/categoryType`
-   */
-   categoryType: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/appCategory`
-   */
-   appCategory: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/appZone`
-   */
-   appZone: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/app`
-   */
-   app: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/zoneContentRestriction`
-   */
-   zoneContentRestriction: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-  /**
-   * Action blueprints:
-   *    `/campaign/zoneType`
-   */
-   zoneType: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
-  },
-
-
-
-
+  
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to CampaignController)

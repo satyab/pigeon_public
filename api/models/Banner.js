@@ -9,11 +9,13 @@
 module.exports = {
 
   attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
+    name: 'string',
+    headline: 'string',
+    text: 'string',
+    destUrl: 'string',
+    locUrl: 'string',
+    typeId: 'string',
+    zoneId: 'string',    
   }
 
 };

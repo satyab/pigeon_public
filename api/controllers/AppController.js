@@ -80,7 +80,7 @@ module.exports = {
   },
 
   show: function(req, res, next) {
-    App.findOne(req.param('id'), function foundApp(err, app) {
+    App.findOne({id: req.param('id'), pub_id: req.session.Publisher.id}, function foundApp(err, app) {
       if (err) return next(err);
       if (!app) return next();
       
