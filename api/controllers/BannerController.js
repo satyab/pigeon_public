@@ -20,6 +20,15 @@ module.exports = {
     
   'new': function(req, res, next) {
     async.parallel({
+      campaigns: function(cb) {
+        Campaign.find({
+          advId: req.session.Advertiser.id
+        })
+        .done(function(err, campaigns) {
+          if(err) return next(err);
+          cb(null, campaigns);
+        })
+      },
       types: function(cb) {
         ContentType.find()
         .done(function(err, types) {

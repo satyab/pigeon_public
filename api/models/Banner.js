@@ -15,7 +15,8 @@ module.exports = {
     destUrl: 'string',
     locUrl: 'string',
     typeId: 'string',
-    zoneId: 'string',    
+    zoneId: 'string',
+    campaignId: 'string'
   }
 
 };
