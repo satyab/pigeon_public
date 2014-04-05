@@ -38,6 +38,25 @@ module.exports.adapters = {
     module: 'sails-mongo',
     host: '172.24.49.163',
     database: 'pigeondb',
-    schema: true
+    schema: true,
+    replSet: {
+      servers: [
+        {
+          host: '172.24.49.163',
+          port: '27017'
+        },
+        {
+          host: '172.24.49.163',
+          port: '27018'
+        },
+        {
+          host: '172.24.49.163',
+          port: '27019'
+        }
+      ],
+      options: {
+        readPreference: 'secondaryPreferred',
+      }
+    }
   }
 };
