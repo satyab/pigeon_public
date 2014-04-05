@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+      <h1 class="text-center login-title">Create a Banner!</h1>
+      <div class="account-wall">
+        <% if(flash && flash.err) { %>
+        <p class="text-center text-danger">
+          <%= flash.err %>
+        </p>        
+        <% } %>
+        <form class="form-signin form-group" action="/banner/create" method="POST">
+          <div class="form-group">
+            <select name="campaignId" class="form-control">
+              <% for ( i in campaigns ) { %>
+              <option value="<%=campaigns[i].id%>"><%=campaigns[i].name%></option>
+              <%}%>
+            </select>
+          </div>               
+          <input id="name" name="name" type="text" class="form-control" placeholder="Banner Name" required autofocus>
+          <input id="headline" name="headline" type="text" class="form-control" placeholder="Headline"/>
+          <input id="text" name="text" type="text" class="form-control" placeholder="Text"/>
+          <input id="destUrl" name="destUrl" type="text" class="form-control" placeholder="Destination URL"/>
+          <input id="locUrl" name="locUrl" type="text" class="form-control hidden" placeholder="Location URL" value="sexyurl"/>          
+          <div class="form-group">
+            <select name="typeId" class="form-control">
+              <% for ( i in types ) { %>
+              <option value="<%=types[i].id%>"><%=types[i].name%></option>
+              <%}%>
+            </select>
+          </div>          
+          <div class="form-group">
+            <select name="zoneId" class="form-control">
+              <% for ( i in zones ) { %>
+              <option value="<%=zones[i].id%>"><%=zones[i].name%></option>
+              <%}%>
+            </select>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Create Banner</button>
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" />          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
