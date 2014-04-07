@@ -10,10 +10,8 @@ module.exports = {
 
   attributes: {
   	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
+  	zoneId: 'string'
+    contentId : 'string'
   }
 
 };

@@ -9,7 +9,6 @@
 module.exports = {
 
   attributes: {
-    id: 'integer',
     category: 'string',
     info: 'string'
   }
