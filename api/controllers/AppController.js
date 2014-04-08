@@ -22,7 +22,6 @@ module.exports = {
       .exec(function(err, categories) {
         res.view({categories: categories});
       });
-    //    return res.view();
   },
 
   create: function(req, res, next) {
@@ -86,7 +85,7 @@ module.exports = {
       
       AppCategory.find({
         app_id: app.id
-      },function(err, categories) {
+      }, function(err, categories) {
 
         if (err) return next(err);
         if (!categories) return next(err);
@@ -98,20 +97,18 @@ module.exports = {
         };
         
         var categoryIds = _.map(categories, function(category) {
-          return { id : category.category_id };
+          return category.category_id;          
         });
 
-        CategoryType.find({
-          where: {
-            or: categoryIds
-          }
-        }, function(err, categories) {
-          if (err) return next(err);
-          if (!categories) return next(err);
-          res.view({
-            app: app,
-            categories: categories
-          });          
+        CategoryType.findByIdIn(categoryIds)
+          .done( function(err, categories) {
+            console.log(categories);
+            if (err) return next(err);
+            if (!categories) return next(err);
+            res.view({
+              app: app,
+              categories: categories
+            });          
         });
         
       });
