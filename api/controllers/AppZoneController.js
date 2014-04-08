@@ -101,6 +101,23 @@ module.exports = {
 
   },
   
+  code : function(req, res, next) {
+  	var publisher = req.session.Publisher;
+  	
+  	AppZone.findOne(req.param('id'))
+  	.done(function (err, appZone){
+  		var zoneId = appZone.zoneId;
+  		var appId = appZone.appId;
+  		ZoneType.findOne(zoneId)
+  		.done(function(err,zoneType){
+  			var height = zoneType.height;
+  			var width = zoneType.width;
+  			
+  			res.send('&lt;iframe src="http://localhost:6060/adserver/ads.jsp?pubId='+publisher.id+'&amp;appId='+appId+'&amp;zoneId='+zoneId+'" width="'+width+'" height="'+height+'" scrolling="no" frameborder="0" &gt;	&lt;/iframe&gt;');
+  		});
+  	});
+  },
+  
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to AppZoneController)

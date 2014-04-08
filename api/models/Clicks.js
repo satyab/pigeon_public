@@ -1,5 +1,5 @@
 /**
- * ZoneContentRestriction
+ * Clicks
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -10,8 +10,13 @@ module.exports = {
 
   attributes: {
   	
-  	zoneId: 'string',
-    contentId : 'string'
+  	pubId : 'string',
+    appId : 'string',
+    zoneId : 'string',
+    bannerId : 'string',
+    campaignId : 'string',
+    geo : 'array'
+    device : 'array'
   }
 
 };
