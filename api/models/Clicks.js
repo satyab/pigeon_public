@@ -15,7 +15,7 @@ module.exports = {
     zoneId : 'string',
     bannerId : 'string',
     campaignId : 'string',
-    geo : 'array'
+    geo : 'array',
     device : 'array'
   }
 
