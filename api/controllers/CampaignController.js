@@ -17,7 +17,6 @@
 
 var async = require('async');
 module.exports = {
-    
   
   'new': function(req, res, next) {
     async.parallel({
@@ -50,9 +49,10 @@ module.exports = {
       startDate: req.param('startDate'),
       endDate: req.param('endDate'),
       limit: req.param('limit'),
-      categories: req.param('categories'),
       advId: req.session.Advertiser.id
     };
+
+    var categories = req.param('categories');
 
     Campaign.create(campaignObj, function(err, campaign) {
       if (err) {
@@ -67,6 +67,29 @@ module.exports = {
         if (err) {
           console.log(err);
           return next(err);
+        }
+        for ( i in categories ) {
+
+          var campaignCategoryObj = {
+            campaignId: campaign.id,
+            categoryId: categories[i]
+          };
+
+          CampaignCategory.create(campaignCategoryObj, function(err, campaignCategory) {
+            
+            if (err) {
+              console.log(err);
+              return next(err);
+            }
+
+            campaignCategory.save(function(err, campaignCategory) {
+              if (err) {
+                console.log(err);
+                return next(err);
+              }
+            });
+            
+          });
         }
         res.redirect('/campaign/show/' + campaign.id);
       });

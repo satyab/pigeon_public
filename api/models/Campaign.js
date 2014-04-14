@@ -17,7 +17,6 @@ module.exports = {
     startDate: 'date',
     endDate: 'date',
     limit: 'integer',
-    categories: 'array',
     remainingLimit: 'integer'
   }
 };
