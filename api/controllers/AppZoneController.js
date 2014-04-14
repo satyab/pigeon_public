@@ -18,7 +18,7 @@
 var async = require('async');
 
 module.exports = {
-    
+  
   'new': function(req, res, next) {
     async.parallel({
       zones: function(cb) {
@@ -48,28 +48,30 @@ module.exports = {
       appId: req.param('appId'),
       zoneId: req.param('zoneId'),
       name: req.param('name'),
-      info: req.param('info'),
+      info: req.param('info')
     };
 
-    AppZone.create(appZoneObj, function appZoneCreated(err, appZone) {
-
-      if (err) {
-        console.log(err);
-        req.session.flash = {
-          err: err
-        };
-        return res.redirect('/appzone/new');
-      }
-
-      appZone.save(function(err, appZone) {
-        if (err) {
-          console.log(err);
-          return next(err);
-        }
-        res.redirect('/appzone/show/' + appZone.id);
+    ZoneType.findOne(appZoneObj.zoneId)
+      .done(function(err,zoneType) {
+  	appZoneObj.height = zoneType.height;
+  	appZoneObj.width = zoneType.width;
+        AppZone.create(appZoneObj, function appZoneCreated(err, appZone) {
+          if (err) {
+            console.log(err);
+            req.session.flash = {
+              err: err
+            };
+            return res.redirect('/appzone/new');
+          }
+          appZone.save(function(err, appZone) {
+            if (err) {
+              console.log(err);
+              return next(err);
+            }
+            res.redirect('/appzone/list/');
+          });
+        });
       });
-      
-    });
   },
 
   show: function(req, res, next) {
@@ -95,27 +97,18 @@ module.exports = {
         }
       }, function(err, appZones) {
         if (err) return next(err);
-        res.view({appZones: appZones});
+        return res.view({
+          baseUrl: sails.config.baseUrl,
+          appZones: appZones
+        });
       });
     });
 
   },
   
   code : function(req, res, next) {
-  	var publisher = req.session.Publisher;
-  	
-  	AppZone.findOne(req.param('id'))
-  	.done(function (err, appZone){
-  		var zoneId = appZone.zoneId;
-  		var appId = appZone.appId;
-  		ZoneType.findOne(zoneId)
-  		.done(function(err,zoneType){
-  			var height = zoneType.height;
-  			var width = zoneType.width;
-  			
-  			res.send('&lt;iframe src="http://localhost:6060/adserver/ads.jsp?pubId='+publisher.id+'&amp;appId='+appId+'&amp;zoneId='+zoneId+'" width="'+width+'" height="'+height+'" scrolling="no" frameborder="0" &gt;	&lt;/iframe&gt;');
-  		});
-  	});
+    var publisher = req.session.Publisher;
+    return res.send("TBD");
   },
   
   /**

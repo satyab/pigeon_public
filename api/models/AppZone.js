@@ -12,7 +12,9 @@ module.exports = {
     name: 'string',
     info: 'string',
     appId: 'string',
-    zoneId: 'string'
+    zoneId: 'string',
+    height: 'string',
+    width: 'string'
   }
 
 };
