@@ -1,5 +1,5 @@
 /**
- * Banner
+ * Masala
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -9,14 +9,13 @@
 module.exports = {
 
   attributes: {
-    name: 'string',
+    categoryId: 'string',
     headline: 'string',
     text: 'string',
     destUrl: 'string',
-    locUrl: 'string',
-    typeId: 'string',
     zoneId: 'string',
     campaignId: 'string',
+    bannerId: 'string',
     advertiserId: 'string'
   }
 

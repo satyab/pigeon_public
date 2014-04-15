@@ -17,38 +17,78 @@
 
 var async = require('async');
 module.exports = {
-    
+  
   'new': function(req, res, next) {
     async.parallel({
       campaigns: function(cb) {
         Campaign.find({
           advId: req.session.Advertiser.id
         })
-        .done(function(err, campaigns) {
-          if(err) return next(err);
-          cb(null, campaigns);
-        })
+          .done(function(err, campaigns) {
+            if(err) return next(err);
+            cb(null, campaigns);
+          })
       },
       types: function(cb) {
         ContentType.find()
-        .done(function(err, types) {
-          if(err) return next(err);
-          cb(null, types);
-        })
+          .done(function(err, types) {
+            if(err) return next(err);
+            cb(null, types);
+          })
       },
       zones: function(cb) {
         ZoneType.find()
-        .done(function(err, zones) {
-          if(err) return next(err);
-          cb(null, zones);
-        })
+          .done(function(err, zones) {
+            if(err) return next(err);
+            cb(null, zones);
+          })
       }
     }, function(err, result) {
       if (err) return next(err);
       res.view(result);
     });
   },
-  
+
+  create: function(req, res, next) {
+    var advertiser = req.session.Advertiser;
+    var banner = req.params.all();
+    banner.advertiserId = advertiser.id;
+    Banner.create(
+      banner,
+      function bannerCreated(err, banner) {
+        if ( err ) return next(err);
+        banner.save(function(err, banner) {
+          if ( err ) return next(err);          
+          CampaignCategory.findByCampaignId(
+            banner.campaignId,
+            function(err, categories) {
+              if ( err ) return next(err);
+              var masala = _.pick(banner, 'headline', 'text', 'destUrl', 'zoneId', 'campaignId', 'advertiserId');
+              masala.bannerId = banner.id;
+              for(i in categories) {
+                masala.categoryId = categories[i].categoryId;
+                Masala.create(masala, function(err, masala) {
+                  if ( err ) return next(err);
+                  masala.save(function(err, masala) {
+                    if (err) return next(err);
+                  });
+                });
+              }
+            }
+          );
+          return res.redirect('/banner/list');
+        });
+      }
+    );
+  },
+
+  list: function(req, res, next) {
+    var advertiser = req.session.Advertiser;
+    Banner.findByAdvertiserId(advertiser.id, function(err, banners) {
+      if (err) return next(err);
+      res.send(banners);
+    });    
+  },
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to BannerController)
