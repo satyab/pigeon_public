@@ -86,7 +86,7 @@ module.exports = {
     var advertiser = req.session.Advertiser;
     Banner.findByAdvertiserId(advertiser.id, function(err, banners) {
       if (err) return next(err);
-      res.send(banners);
+      return res.send(banners);
     });    
   },
   /**

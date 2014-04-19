@@ -14,7 +14,9 @@ module.exports = {
     appId: 'string',
     zoneId: 'string',
     height: 'string',
-    width: 'string'
+    width: 'string',
+    pubId: 'string',
+    categories: 'array'
   }
 
 };

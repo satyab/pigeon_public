@@ -48,27 +48,32 @@ module.exports = {
       appId: req.param('appId'),
       zoneId: req.param('zoneId'),
       name: req.param('name'),
-      info: req.param('info')
+      info: req.param('info'),
+      pubId: publisher.id
     };
 
     ZoneType.findOne(appZoneObj.zoneId)
       .done(function(err,zoneType) {
   	appZoneObj.height = zoneType.height;
   	appZoneObj.width = zoneType.width;
-        AppZone.create(appZoneObj, function appZoneCreated(err, appZone) {
-          if (err) {
-            console.log(err);
-            req.session.flash = {
-              err: err
-            };
-            return res.redirect('/appzone/new');
-          }
-          appZone.save(function(err, appZone) {
+        AppCategory.findByAppId(appZoneObj.appId, function(err, appCategories) {
+          var categories = _.map(appCategories, function(appCategory) {return appCategory.category});
+          appZoneObj.categories = categories;
+          AppZone.create(appZoneObj, function appZoneCreated(err, appZone) {
             if (err) {
               console.log(err);
-              return next(err);
+              req.session.flash = {
+                err: err
+              };
+              return res.redirect('/appzone/new');
             }
-            res.redirect('/appzone/list/');
+            appZone.save(function(err, appZone) {
+              if (err) {
+                console.log(err);
+                return next(err);
+              }
+              res.redirect('/appzone/list/');
+            });
           });
         });
       });
