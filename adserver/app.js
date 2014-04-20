@@ -4,9 +4,12 @@ var http = require('http');
 var config = require('./config');
 var adserver = require('./adserver');
 
-var db = mongo.init(config.mongo);
 var mem = memcached.init(config.memcached);
-adserver.init(db, mem, config.adserver);
+mongo.init(config.mongo, function(db) {
+  adserver.init(db, mem, config.adserver);  
+});
+
+
 
 function requestListener(req, res) {
   adserver.serve(req, res);

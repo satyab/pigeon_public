@@ -56,8 +56,8 @@ module.exports = {
       .done(function(err,zoneType) {
   	appZoneObj.height = zoneType.height;
   	appZoneObj.width = zoneType.width;
-        AppCategory.findByAppId(appZoneObj.appId, function(err, appCategories) {
-          var categories = _.map(appCategories, function(appCategory) {return appCategory.category});
+        AppCategory.findByApp_id(appZoneObj.appId, function(err, appCategories) {
+          var categories = _.map(appCategories, function(appCategory) {return appCategory.category_id});
           appZoneObj.categories = categories;
           AppZone.create(appZoneObj, function appZoneCreated(err, appZone) {
             if (err) {

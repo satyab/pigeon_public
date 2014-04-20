@@ -49,6 +49,7 @@ module.exports = {
       startDate: req.param('startDate'),
       endDate: req.param('endDate'),
       limit: req.param('limit'),
+      remainingLimit: req.param('limit'),      
       advId: req.session.Advertiser.id
     };
 

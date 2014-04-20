@@ -20,14 +20,15 @@ function getConnectURL (opts) {
 }
 
 module.exports = {
-  init: function(opts) {
+  init: function(opts, onInit) {
     Client.connect(getConnectURL(opts), function(err, database) {
       if(err) {
         console.log(err);
         return null;
       }
       console.log("Connected to mongo");
-      db = database;      
+      db = database;
+      onInit(db);
     });
     return db;
   }

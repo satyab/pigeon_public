@@ -1,5 +1,6 @@
 var url = require('url');
 var ua = require('express-useragent');
+var ObjectID = require('mongodb').ObjectID;
 var config;
 var db, mem;
 
@@ -10,7 +11,7 @@ function validateRequest(req) {
   }
   var params = url.parse(req.url, true).query;
   for ( i in config.requiredParams ) {
-    if ( !params[config.requiredParams[i]] ) return null;
+    if ( !params[config.requiredParams[i]] ) throw "Parameter Not Found : "+config.requiredParams[i];
   }
   return params;
 }
@@ -27,9 +28,10 @@ function serveDefaultAd(res) {
 function getAppZone(req, res, data, appZoneId) {
   db.collection("appzone")
     .findOne(
-      appZoneId,
+      new ObjectID(appZoneId),
       function(err, appzone) {
-        if (err) {
+        if (err || !appzone) {
+          serveDefaultAd(res);
           console.log(err);
           return;
         }
@@ -50,28 +52,36 @@ function getBanners(req, res, data, appzone) {
         $in: appzone.categories
       }
     }, function(err, banners) {
-      if ( err ) {
+      if ( err || !banners ) {
+        serveDefaultAd(res);        
         console.log(err);
         return;
       }
-      selectBanner(req, res, data, banners);
+      banners.toArray(function(err, banners) {
+        if ( 0 == banners.length ) {
+          serveDefaultAd(res);
+          return;
+        }
+        selectBanner(req, res, data, banners);        
+      });
     });
 }
 
 function selectBanner(req, res, data, banners) {
-  var banner = banners[0];
+  var random = Math.floor((Math.random()*100)+1) % banners.length; 
+  var banner = banners[random];
   data.campaignId = banner.campaignId;
   data.bannerId = banner._id;
-  data.advertiserId = banner.advertiser.id;
+  data.advertiserId = banner.advertiserId;
   return deliverAndUpdate(req, res, data, banner);
 }
 
 function masalaCleanUp(campaign) {
   if ( 0 >= campaign.remainingLimit ) {
     db.collection("masala")
-      .delete({
-        campaignId: campaign._id
-      });
+      .remove({
+        campaignId: campaign._id.toString()
+      }, function() {});
   }
   return;
 }
@@ -84,10 +94,10 @@ function updateImpressions(req, data) {
   data.ua = userInfo.source;
   data.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   db.collection("impressions")
-    .insert(data);
+    .insert(data, function() {});
   db.collection("campaign")
     .findAndModify(
-      {'_id': data.campaignId},
+      {'_id': new ObjectID(data.campaignId)},
       [['_id','asc']],
       { $inc: {remainingLimit: -1}},
       {'new': true},
@@ -107,7 +117,7 @@ function deliverAndUpdate(req, res, data, banner) {
   return;
 }
 
-function serveAd(req, params, res) {
+function serveAd(req, res, params) {
   getAppZone(req, res, {}, params.appZoneId );
   return;
 }
@@ -122,9 +132,13 @@ module.exports = {
   },
 
   serve: function(req, res) {
-    var params = validateRequest(req);
-    if ( params ) serveAd(params, res);
-    else serveDefaultAd(res);
+    try {
+      var params = validateRequest(req);
+      serveAd(req, res, params);
+    } catch (e) {
+      console.log(e);
+      serveDefaultAd(res);
+    }
     return;
   }
   
