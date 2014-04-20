@@ -23,7 +23,7 @@ module.exports = {
     }
   },
   http: {
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 80
   },
   adserver: {
