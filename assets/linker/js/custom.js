@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $('.multiselect').multiselect({
     enableCaseInsensitiveFiltering: true,
-    includeSelectAllOption: true,
+    /*includeSelectAllOption: true,*/
     buttonContainer: '<div class="btn-group" />',
     buttonWidth: '300px',
     maxHeight: 200,

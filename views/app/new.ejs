@@ -13,7 +13,7 @@
           <input id="app_name" name="app_name" type="text" class="form-control" placeholder="App Name" required autofocus>
           <input id="app_info" name="app_info" type="text" class="form-control" placeholder="App Description">
           <div class="input-group form-group">
-            <select name="categories" class="multiselect" multiple="multiple">
+            <select name="categories[]" class="multiselect" multiple="multiple">
               <% for ( i in categories ) { %>
               <option value="<%=categories[i].id%>"><%=categories[i].category%></option>
               <%}%>
