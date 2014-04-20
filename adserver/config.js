@@ -24,7 +24,7 @@ module.exports = {
   },
   http: {
     host: 'localhost',
-    port: 1337
+    port: 80
   },
   adserver: {
     defaultAd: {
