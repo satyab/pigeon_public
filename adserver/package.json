@@ -1,7 +1,7 @@
 {
-  "name": "Pigeon AdServer",
+  "name": "Pigeon",
   "version": "0.0.0",
-  "description": "Pigeon Adserver",
+  "description": "",
   "main": "app.js",
   "dependencies": {
     "express-useragent": "~0.0.12",
