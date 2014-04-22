@@ -36,7 +36,7 @@ module.exports.adapters = {
 
   mongo: {
     module: 'sails-mongo',
-    host: 'swapnilsm.pgn',
+    host: '54.187.79.118',
     port: 27017,
     database: 'pigeondb_clean',
     schema: true,
