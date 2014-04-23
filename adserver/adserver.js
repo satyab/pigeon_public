@@ -34,9 +34,8 @@ function passAppZone(req, res, data, appzone) {
 
 function getAppZone(req, res, data, appZoneId) {
   var key = 'appzone'+appZoneId;
-  mem.get(key, function(err, data) {
-    if ( err || !data ) {
-      console.log("from db");
+  mem.get(key, function(err, appzone) {
+    if ( err || !appzone ) {
       db.collection("appzone")
         .findOne(
           new ObjectID(appZoneId),
@@ -51,31 +50,46 @@ function getAppZone(req, res, data, appZoneId) {
           }
         );
     } else {
-      console.log("from memcached");
-      passAppZone(req, res, data, data);
+      passAppZone(req, res, data, appzone);
     }
   });
 }
 
+function passBanners(req, res, data, banners) {
+    selectBanner(req, res, data, banners);
+}
+
 function getBanners(req, res, data, appzone) {
-  db.collection("masala")
-    .find({
-      categoryId: {
-        $in: appzone.categories
-      }
-    }, function(err, banners) {
-      if ( err || !banners ) {
-        serveDefaultAd(res);        
-        console.log(err);
-        return;
-      }
-      banners.toArray(function(err, banners) {
-        if ( 0 == banners.length ) {
-          serveDefaultAd(res);
-          return;
+    var key = "";
+    for ( i in appzone.categories ) {
+        key += appzone.categories[i];
+    }
+    mem.get(key, function(err, banners) {
+        if ( err || !banners ) {
+            db.collection("masala")
+                .find({
+                    categoryId: {
+                        $in: appzone.categories
+                    }
+                }, function(err, banners) {
+                    if ( err || !banners ) {
+                        serveDefaultAd(res);
+                        console.log(err);
+                        return;
+                    }
+                    banners.toArray(function(err, banners) {
+                        if ( 0 == banners.length ) {
+                            serveDefaultAd(res);
+                            return;
+                        }
+                        passBanners(req, res, data, banners);
+                        mem.set(key, banners);
+                    });
+                });
+
+        } else {
+            passBanners(req, res, data, banners);
         }
-        selectBanner(req, res, data, banners);        
-      });
     });
 }
 

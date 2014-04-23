@@ -32,6 +32,6 @@ module.exports = {
       text: "New Boy in the City"
     },
     requiredParams: ['appZoneId'],
-    timeout: 5
+    timeout: 60
   }
 }
