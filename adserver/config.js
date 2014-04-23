@@ -31,6 +31,7 @@ module.exports = {
       headline: "Pigeon Ad Network",
       text: "New Boy in the City"
     },
-    requiredParams: ['appZoneId']
+    requiredParams: ['appZoneId'],
+    timeout: 5
   }
 }

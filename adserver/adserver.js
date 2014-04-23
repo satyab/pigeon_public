@@ -6,7 +6,6 @@ var db, mem;
 
 function validateRequest(req) {
   if ( "GET" !== req.method ) {
-    console.log("Wrong request method: "+req.method);    
     return null;
   }
   var params = url.parse(req.url, true).query;
@@ -25,24 +24,37 @@ function serveDefaultAd(res) {
   return;
 }
 
+function passAppZone(req, res, data, appzone) {
+  data.pubId = appzone.pubId;
+  data.appId = appzone.appId;
+  data.zoneId = appzone.zoneId;
+  data.appZoneId = appzone._id;
+  getBanners(req, res, data, appzone);
+}
+
 function getAppZone(req, res, data, appZoneId) {
-  db.collection("appzone")
-    .findOne(
-      new ObjectID(appZoneId),
-      function(err, appzone) {
-        if (err || !appzone) {
-          serveDefaultAd(res);
-          console.log(err);
-          return;
-        }
-        data.pubId = appzone.pubId;
-        data.appId = appzone.appId;
-        data.zoneId = appzone.zoneId;
-        data.appZoneId = appzone._id;
-        getBanners(req, res, data, appzone);
-      }
-    );
-  return;
+  var key = 'appzone'+appZoneId;
+  mem.get(key, function(err, data) {
+    if ( err || !data ) {
+      console.log("from db");
+      db.collection("appzone")
+        .findOne(
+          new ObjectID(appZoneId),
+          function(err, appzone) {
+            if (err || !appzone) {
+              serveDefaultAd(res);
+              console.log(err);
+              return;
+            }
+            mem.set(key, appzone, config.timeout, function(err) {});
+            passAppZone(req, res, data, appzone);
+          }
+        );
+    } else {
+      console.log("from memcached");
+      passAppZone(req, res, data, data);
+    }
+  });
 }
 
 function getBanners(req, res, data, appzone) {
@@ -136,7 +148,6 @@ module.exports = {
       var params = validateRequest(req);
       serveAd(req, res, params);
     } catch (e) {
-      console.log(e);
       serveDefaultAd(res);
     }
     return;
