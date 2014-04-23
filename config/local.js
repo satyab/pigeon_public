@@ -57,6 +57,6 @@ module.exports = {
   environment: process.env.NODE_ENV || 'production',  
 
   appName: "Pigeon",
-  baseUrl: "some-baseurl"
+  baseUrl: "postman-971025256.us-west-2.elb.amazonaws.com"
 
 };
