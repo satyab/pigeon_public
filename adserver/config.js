@@ -1,12 +1,15 @@
 module.exports = {
   mongo: {
     hosts: [
-      "54.187.79.118:27017"
+      "172.31.1.89:27017",
+      "172.31.1.58:27017",
+      "172.31.1.59:27017"
     ],
     db: 'pigeondb_clean',
     replicaSet: 'pigeon',
     adOpts: {
-    'poolSize': 5
+      'poolSize': 5,
+      'readPreference': 'secondaryPreferred'
     },
   },
   memcached: {
