@@ -43,8 +43,12 @@ function updateLocations(db) {
           if (!geo) {
             geo = geoip.lookup(impressions[i].ip);
             cache.set(impressions[i].ip, geo);
-          } 
-          updateImpression(impressions[i]._id.toString(), geo);
+          }
+          if (geo)
+            updateImpression(impressions[i]._id.toString(), geo);
+          else {
+            console.log("object not returned for ip : "+impressions[i].ip);
+          }
         }
         console.log("Updated complete");
       }
