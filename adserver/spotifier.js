@@ -1,3 +1,4 @@
+var process = require('process');
 var url = require('url');
 var mongo = require('./mongo');
 var ObjectID = require('mongodb').ObjectID;
@@ -14,7 +15,6 @@ mongo.init(config.mongo, function(database) {
 });
 
 function updateImpression(id, geo) {
-  console.log(geo.country + ":" + geo.city);
   db.collection("impressions")
     .findAndModify(
       {'_id': new ObjectID(id)},
@@ -49,11 +49,9 @@ function updateLocations() {
           }
           if (geo)
             updateImpression(impressions[i]._id.toString(), geo);
-          else {
-            console.log("object not returned for ip : "+impressions[i].ip);
-          }
         }
         console.log("Updated complete");
+        process.exit();
       }
     );
 }
