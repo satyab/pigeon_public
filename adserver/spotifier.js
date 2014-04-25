@@ -5,18 +5,20 @@ var config = require('./config');
 var LRU = require("lru-cache");
 var cache = LRU(500);
 var geoip = require('geoip-lite');
+var db;
 
-mongo.init(config.mongo, function(db) {
-  updateLocations(db);
+mongo.init(config.mongo, function(database) {
+  db = database;
+  updateLocations();
 });
 
 function updateImpression(id, geo) {
-  console.log(geo.county + ":" + geo.city);
+  console.log(geo.country + ":" + geo.city);
   db.collection("impressions")
     .findAndModify(
       {'_id': new ObjectID(id)},
       [['_id','asc']],
-      { $set: {county: geo.county, city: geo.city}},
+      { $set: {country: geo.country, city: geo.city}},
       {},
       function(err, impression) {
         if (err) {
@@ -27,10 +29,10 @@ function updateImpression(id, geo) {
     );
 }
 
-function updateLocations(db) {
+function updateLocations() {
   console.log("Update started");
   db.collection("impressions")
-    .find({contry:null, city:null})
+    .find({country:null, city:null})
     .toArray(
       function(err, impressions) {
         if (err || !impressions ) {
