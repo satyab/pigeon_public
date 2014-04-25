@@ -1,5 +1,6 @@
 var url = require('url');
 var mongo = require('./mongo');
+var ObjectID = require('mongodb').ObjectID;
 var http = require('http');
 var config = require('./config');
 var LRU = require("lru-cache");
