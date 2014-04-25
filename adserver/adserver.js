@@ -119,6 +119,8 @@ function updateImpressions(req, data) {
   data.browser = userInfo.Browser;
   data.ua = userInfo.source;
   data.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  data.country = null;
+  data.city = null;
   data.timestamp = (new Date).getTime();
   db.collection("impressions")
     .insert(data, function() {});
