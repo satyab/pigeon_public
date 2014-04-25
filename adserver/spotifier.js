@@ -28,10 +28,15 @@ function updateImpression(id, geo) {
 }
 
 function updateLocations(db) {
+  console.log("Update started");
   db.collection("impressions")
-    .find(
-      {contry:null, city:null},
+    .find({contry:null, city:null})
+    .toArray(
       function(err, impressions) {
+        if (err || !impressions ) {
+          console.log("Error retrieving impressions");
+          return;
+        }
         for (i in impressions) {
           if ( !impressions[i].ip ) continue;
           var geo = cache.get(impressions[i].ip);
@@ -41,6 +46,7 @@ function updateLocations(db) {
           } 
           updateImpression(impressions[i]._id.toString(), geo);
         }
+        console.log("Updated complete");
       }
     );
 }
