@@ -16,7 +16,7 @@ function validateRequest(req) {
 }
 
 function formatAd(params) {
-  return '<h3 style="margin:0; padding:0"><a href="'+params.destUrl+'">'+params.headline+'</a></h3>'+'<div style="color:green;">'+params.destUrl+'</div><div>'+params.text+'</div>';
+  return '<h3 style="margin:0; padding:0"><a style="text-decoration:none;" href="'+params.destUrl+'">'+params.headline+'</a></h3>'+'<div style="color:green;">'+params.destUrl+'</div><div>'+params.text+'</div>';
 }
 
 function serveDefaultAd(res) {
