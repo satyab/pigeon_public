@@ -90,7 +90,7 @@ module.exports = {
         if (err) return next(err);
         if (!categories) return next(err);
         if (0 == categories.length) {
-          res.view({
+          return res.view({
             app: app,
             categories: categories
           });
@@ -105,7 +105,7 @@ module.exports = {
             console.log(categories);
             if (err) return next(err);
             if (!categories) return next(err);
-            res.view({
+            return res.view({
               app: app,
               categories: categories
             });          
