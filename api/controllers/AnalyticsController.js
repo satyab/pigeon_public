@@ -260,8 +260,6 @@ module.exports = {
     	returnObj = osArray;
 	return res.send(returnObj);
       });
-    
-    
   },
   
   browserpie : function(req, res, next){
