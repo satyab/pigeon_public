@@ -37,7 +37,7 @@ module.exports = {
   // to 80 (http://) or 443 (https://) if you have an SSL certificate
 
   //port: process.env.PORT || 1337,
-  port: process.env.PORT || 80,  
+  port: 80,  
 
 
 
@@ -54,7 +54,7 @@ module.exports = {
   // If NODE_ENV is not set, Sails will run in the 'development' environment.
 
   //environment: process.env.NODE_ENV || 'development',
-  environment: process.env.NODE_ENV || 'production',  
+  environment: 'production',  
 
   appName: "Pigeon",
   baseUrl: "postman-971025256.us-west-2.elb.amazonaws.com"
