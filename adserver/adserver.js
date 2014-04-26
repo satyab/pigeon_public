@@ -6,7 +6,6 @@ var db, mem;
 
 function validateRequest(req) {
   if ( "GET" !== req.method ) {
-    console.log("Wrong request method: "+req.method);    
     return null;
   }
   var params = url.parse(req.url, true).query;
@@ -17,7 +16,7 @@ function validateRequest(req) {
 }
 
 function formatAd(params) {
-  return "<h1>"+params.headline+"</h1>"+"<h3>"+params.text+"</h3>";
+  return '<h3 style="margin:0; padding:0"><a style="text-decoration:none;" href="'+params.destUrl+'">'+params.headline+'</a></h3>'+'<div style="color:green;">'+params.destUrl+'</div><div>'+params.text+'</div>';
 }
 
 function serveDefaultAd(res) {
@@ -25,45 +24,72 @@ function serveDefaultAd(res) {
   return;
 }
 
+function passAppZone(req, res, data, appzone) {
+  data.pubId = appzone.pubId;
+  data.appId = appzone.appId;
+  data.zoneId = appzone.zoneId;
+  data.appZoneId = appzone._id;
+  getBanners(req, res, data, appzone);
+}
+
 function getAppZone(req, res, data, appZoneId) {
-  db.collection("appzone")
-    .findOne(
-      new ObjectID(appZoneId),
-      function(err, appzone) {
-        if (err || !appzone) {
-          serveDefaultAd(res);
-          console.log(err);
-          return;
-        }
-        data.pubId = appzone.pubId;
-        data.appId = appzone.appId;
-        data.zoneId = appzone.zoneId;
-        data.appZoneId = appzone._id;
-        getBanners(req, res, data, appzone);
-      }
-    );
-  return;
+  var key = 'appzone'+appZoneId;
+  mem.get(key, function(err, appzone) {
+    if ( err || !appzone ) {
+      db.collection("appzone")
+        .findOne(
+          new ObjectID(appZoneId),
+          function(err, appzone) {
+            if (err || !appzone) {
+              serveDefaultAd(res);
+              console.log(err);
+              return;
+            }
+            mem.set(key, appzone, config.timeout, function(err) {});
+            passAppZone(req, res, data, appzone);
+          }
+        );
+    } else {
+      passAppZone(req, res, data, appzone);
+    }
+  });
+}
+
+function passBanners(req, res, data, banners) {
+    selectBanner(req, res, data, banners);
 }
 
 function getBanners(req, res, data, appzone) {
-  db.collection("masala")
-    .find({
-      categoryId: {
-        $in: appzone.categories
-      }
-    }, function(err, banners) {
-      if ( err || !banners ) {
-        serveDefaultAd(res);        
-        console.log(err);
-        return;
-      }
-      banners.toArray(function(err, banners) {
-        if ( 0 == banners.length ) {
-          serveDefaultAd(res);
-          return;
+    var key = "";
+    for ( i in appzone.categories ) {
+        key += appzone.categories[i];
+    }
+    mem.get(key, function(err, banners) {
+        if ( err || !banners ) {
+            db.collection("masala")
+                .find({
+                    categoryId: {
+                        $in: appzone.categories
+                    }
+                }, function(err, banners) {
+                    if ( err || !banners ) {
+                        serveDefaultAd(res);
+                        console.log(err);
+                        return;
+                    }
+                    banners.toArray(function(err, banners) {
+                        if ( 0 == banners.length ) {
+                            serveDefaultAd(res);
+                            return;
+                        }
+                        passBanners(req, res, data, banners);
+                        mem.set(key, banners);
+                    });
+                });
+
+        } else {
+            passBanners(req, res, data, banners);
         }
-        selectBanner(req, res, data, banners);        
-      });
     });
 }
 
@@ -93,6 +119,9 @@ function updateImpressions(req, data) {
   data.browser = userInfo.Browser;
   data.ua = userInfo.source;
   data.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  data.country = null;
+  data.city = null;
+  data.timestamp = (new Date).getTime();
   db.collection("impressions")
     .insert(data, function() {});
   db.collection("campaign")
@@ -136,7 +165,6 @@ module.exports = {
       var params = validateRequest(req);
       serveAd(req, res, params);
     } catch (e) {
-      console.log(e);
       serveDefaultAd(res);
     }
     return;

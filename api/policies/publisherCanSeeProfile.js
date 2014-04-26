@@ -5,7 +5,7 @@
 
 module.exports = function(req, res, next) {
 
-  var sessionUserMatchesId = (req.session.Publisher.id == req.param('id'));
+  var sessionUserMatchesId = (req.session.Publisher && req.session.Publisher.id == req.param('id'));
 
   // The requested id does not match the user's id,
   if (!(sessionUserMatchesId)) {

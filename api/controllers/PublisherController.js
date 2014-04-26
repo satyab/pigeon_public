@@ -19,6 +19,10 @@ var bcrypt = require('bcrypt');
 
 module.exports = {
 
+  index: function(req, res, next) {
+    return res.redirect('/publisher/show/'+req.session.Publisher.id);    
+  },
+
   'new': function(req, res, next) {
     res.view();
   },

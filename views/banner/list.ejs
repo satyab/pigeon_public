@@ -1,30 +1,24 @@
-<div class="container">
+<div class="container table-responsive">
   <table class="table table-hover clickable-table">
     <thead>
       <tr>
-        <th>#</th>
-        <th>Name</th>        
-        <th>Description</th>            
+        <th>Name</th>
+        <th>Headline</th>
       </tr>
     </thead>
     <tbody>
-      <% for(i in appZones) {%>
+      <% for(i in banners ) {%>
       <tr >
         <td>
-          <a href="/appzone/show/<%=appZones[i].id%>">
-            <%=appZones[i].id%>
+          <a href="/banner/show/<%=banners[i].id%>">
+            <%=banners[i].name%>
           </a>
         </td>
         <td>
-          <a href="/appzone/show/<%=appZones[i].id%>">
-            <%=appZones[i].name%>
+          <a href="/banner/show/<%=banners[i].id%>">            
+          <%=banners[i].headline%>
           </a>
-        </td>        
-        <td>
-          <a href="/appzone/show/<%=appZones[i].id%>">            
-          <%=appZones[i].info%>
-          </a>
-        </td>      
+        </td>
       </tr>    
       <% } %>
     </tbody>

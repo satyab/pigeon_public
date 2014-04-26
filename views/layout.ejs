@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
   <head>
     <title><%- title %></title>
 
@@ -28,18 +28,15 @@
       -->
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/linker/styles/bootstrap-multiselect.css">
-    <link rel="stylesheet" href="/linker/styles/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/linker/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/linker/styles/custom.css">
-    <link rel="stylesheet" href="/linker/styles/datepicker3.css">
-    <link rel="stylesheet" href="/linker/styles/form-signin.css">
+    <link rel="stylesheet" href="/min/production.css">
     <!--STYLES END-->
   </head>
 
-  <body>
-    <%- partial('partials/header') %>
-    <%- body %>
+  <body style="height:100%;">
+    <div style="min-height:100%; margin-bottom:-145px;">
+      <%- partial('partials/header') %>
+      <%- body %>
+    </div>
     <%- partial('partials/footer') %>
 
 
@@ -92,15 +89,7 @@
       -->
 
     <!--SCRIPTS-->
-    <script src="/linker/js/socket.io.js"></script>
-    <script src="/linker/js/sails.io.js"></script>
-    <script src="/linker/js/app.js"></script>
-    <script src="/linker/js/jquery.js"></script>
-    <script src="/linker/js/bootstrap.min.js"></script>
-    <script src="/linker/js/bootstrap-datepicker.js"></script>
-    <script src="/linker/js/bootstrap-multiselect.js"></script>
-    <script src="/linker/js/custom.js"></script>
-    <script src="/linker/js/form-validation.js"></script>
+    <script src="/min/production.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

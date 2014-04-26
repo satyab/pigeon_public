@@ -89,6 +89,29 @@ module.exports = {
       return res.send(banners);
     });    
   },
+
+  show: function(req, res, next) {
+    Banner.findOne({id: req.param('id'), advertiserId: req.session.Advertiser.id}, function foundBanner(err, banner) {
+      if (err) return next(err);
+      if (!banner) return next();
+      return res.view({
+        banner: banner
+      });
+    });
+  },
+
+  list: function(req, res, next) {
+    var advertiser = req.session.Advertiser;
+    Banner.find({
+      advertiserId: advertiser.id
+    }, function(err, banners) {
+      if (err) return next(err);
+      if (!banners) return next();
+      res.view({
+        banners: banners
+      });
+    });
+  },
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to BannerController)

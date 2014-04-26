@@ -24,7 +24,7 @@ module.exports.policies = {
     login: "flash",
     logout: "isAuthenticatedPublisher",    
     show: "publisherCanSeeProfile",
-    '*': true
+    '*': "isAuthenticatedPublisher"
   },
 
   advertiser: {
@@ -33,7 +33,7 @@ module.exports.policies = {
     login: "flash",
     logout: "isAuthenticatedAdvertiser",        
     show: "advertiserCanSeeProfile",
-    '*': true
+    '*': "isAuthenticatedAdvertiser"
   },
 
   app: {
@@ -49,6 +49,10 @@ module.exports.policies = {
   },
 
   banner: {
+    '*': ['isAuthenticatedAdvertiser', 'flash']
+  },
+
+  analytics: {
     '*': ['isAuthenticatedAdvertiser', 'flash']
   }
 

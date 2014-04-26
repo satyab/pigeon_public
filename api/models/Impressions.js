@@ -22,7 +22,8 @@ module.exports = {
     ip: 'string',
     city: 'string',
     country: 'string',
-    ua: 'string'
+    ua: 'string',
+    timestamp: 'integer'
   }
 
 };

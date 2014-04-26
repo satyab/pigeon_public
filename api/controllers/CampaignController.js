@@ -98,13 +98,51 @@ module.exports = {
   },
 
   show: function(req, res, next) {
-    Campaign.findOne({
-      id: req.param('id'),
-      advId: req.session.Advertiser.id
-    }).done(function(err, campaign) {
+    Campaign.findOne({id: req.param('id'), advId: req.session.Advertiser.id}, function foundCampaign(err, campaign) {
       if (err) return next(err);
       if (!campaign) return next();
-      res.send(campaign);
+      
+      CampaignCategory.find({
+        campaignId: campaign.id
+      }, function(err, categories) {
+
+        if (err) return next(err);
+        if (!categories) return next(err);
+        if (0 == categories.length) {
+          return res.view({
+            campaign: campaign,
+            categories: categories
+          });
+        };
+        
+        var categoryIds = _.map(categories, function(category) {
+          return category.categoryId;          
+        });
+        CategoryType.findByIdIn(categoryIds)
+          .done( function(err, categories) {
+            if (err) return next(err);
+            if (!categories) return next(err);
+            res.view({
+              campaign: campaign,
+              categories: categories
+            });          
+        });
+        
+      });
+
+    });
+  },
+
+  list: function(req, res, next) {
+    var advertiser = req.session.Advertiser;
+    Campaign.find({
+      advId: advertiser.id
+    }, function(err, campaigns) {
+      if (err) return next(err);
+      if (!campaigns) return next();
+      res.view({
+        campaigns: campaigns
+      });
     });
   },
   
