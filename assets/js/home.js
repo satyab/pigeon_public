@@ -12,7 +12,7 @@ $(
 function getAll() {
   campaignCount();
   bannerCount();
-  drawArea();
+  //drawArea();
 }
 
 function campaignCount() {
