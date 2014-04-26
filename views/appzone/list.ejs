@@ -3,7 +3,6 @@
     <table class="table table-hover clickable-table">
       <thead>
         <tr>
-          <th>#</th>
           <th>Name</th>        
           <th>Description</th> 
           <th>Generate</th>           
@@ -12,11 +11,6 @@
       <tbody>
         <% for(i in appZones) {%>
         <tr >
-          <td>
-            <a href="/appzone/show/<%=appZones[i].id%>">
-              <%=appZones[i].id%>
-            </a>
-          </td>
           <td>
             <a href="/appzone/show/<%=appZones[i].id%>">
               <%=appZones[i].name%>
@@ -39,9 +33,7 @@
                     <h4 class="modal-title">Put the following code where you want to see the ad</h4>
                   </div>
                   <div class="modal-body">
-                    <p>
-                      &ltiframe height="<%=appZones[i].height%>px" width="<%=appZones[i].width%>px" src="<%=baseUrl%>?appZoneId=<%=appZones[i].id%>"/&gt
-                    </p>
+                    <p style="word-wrap:break-word;">&ltiframe height="<%=appZones[i].height%>px" width="<%=appZones[i].width%>px" src="<%=baseUrl%>?appZoneId=<%=appZones[i].id%>"/&gt</p>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
