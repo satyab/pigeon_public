@@ -20,7 +20,7 @@ module.exports = {
   
   show: function(req, res, next) {
     
-    res.view({
+    return res.view({
       layout: "dashboard"
     });
 
@@ -42,7 +42,7 @@ module.exports = {
 	  cCount++;
 	  aCount += campaign.limit - campaign.remainingLimit;
 	  
-	  res.send({
+	  return res.send({
 	    campaignCount: cCount,
     	    serveCount: aCount,
 	  });     		
@@ -58,7 +58,7 @@ module.exports = {
 	    aCount += campaign[i].limit - campaign[i].remainingLimit;
 	  }
 
-	  res.send({
+	  return res.send({
 	    campaignCount: cCount,
     	    serveCount: aCount,
 	  });     		
@@ -78,7 +78,7 @@ module.exports = {
       	function(err, cnt) {
 	  bCount = cnt;
 	  
-	  res.send({
+	  return res.send({
 	    bannerCount: bCount,
 	  });
       	}
@@ -89,7 +89,7 @@ module.exports = {
       	function(err, cnt) {
 	  bCount = cnt;
 	  
-	  res.send({
+	  return res.send({
 	    bannerCount: bCount,
 	  });
       	}
@@ -202,7 +202,7 @@ module.exports = {
       	  function(err, cnt) {
 	    bCount = cnt;
 	    
-	    res.view({
+	    return res.view({
     	      layout: false,
     	      campaignCount: cCount,
     	      serveCount: aCount,
@@ -219,7 +219,7 @@ module.exports = {
   
   dashboard: function(req, res, next) {
     
-    res.view({
+    return res.view({
       layout: "dashboard"
     });
 
@@ -227,7 +227,7 @@ module.exports = {
   
   charts: function(req, res, next) {
     
-    res.view({
+    return res.view({
       layout: false
     });
 
