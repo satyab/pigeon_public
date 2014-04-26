@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/linker/styles/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="/styles/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/linker/styles/datepicker3.css">
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    <!-- Page Specific CSS -->
+
+  </head>
+
+  <body>
+	
+	<div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/advertiser/">Pigeon</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+          	<li class="active"><a href="/analytics/home"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/analytics/charts"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
+         </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  add email here <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="/advertiser/logout"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Dashboard <small>Statistics Overview</small></h1>
+	        <ol class="breadcrumb">
+		    	<div class="form-group">
+            		<select id="campaign-dropdown" name="campaigns[]" class="form-control" >
+            			<option value="">All</option>
+              		<% for ( i in campaigns ) { %>
+             			<option value="<%=campaigns[i].id%>"><%=campaigns[i].name%></option>
+              		<%}%>
+            		</select>
+          		</div> 
+				<button id="submit-button" type="button" class="btn btn-primary btn-sm">Submit</button>
+		 	</ol>
+			
+		  </div>
+        </div><!-- /.row -->
+
+        <!--<div class="row"> -->
+          <div class="container">
+          	<div class="col-lg-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-comments fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p id="campaign-count" class="announcement-heading"></p>
+                    <p class="announcement-text"><b>Campaign</b></p>
+                  </div>
+                </div>
+              </div>
+           	</div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-comments fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p id="banner-count" class="announcement-heading"></p>
+                    <p class="announcement-text"><b>Banners</b></p>
+                  </div>
+                </div>
+              </div>
+           	</div>
+          </div>
+          <div class="col-lg-3">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-check fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <p id="serve-count" class="announcement-heading"></p>
+                    <p class="announcement-text"><b>Impressions</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         </div>
+        <!--</div>--><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> check</h3>
+              </div>
+              <div class="panel-body">
+                <div id="morris-chart-area"></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+        
+    <script src="/linker/js/jquery.js"></script>
+    <script src="/linker/js/bootstrap.min.js"></script>
+
+    <!-- Page Specific Plugins -->
+    <script src="/js/raphael-min.js"></script>
+    <script src="/js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="/linker/js/socket.io.js"></script>
+    <script src="/linker/js/sails.io.js"></script>
+    <script src="/linker/js/app.js"></script>
+    <script src="/linker/js/jquery.js"></script>
+    <script src="/linker/js/bootstrap.min.js"></script>
+    <script src="/linker/js/bootstrap-datepicker.js"></script>
+    <script src="/linker/js/bootstrap-multiselect.js"></script>
+    <script src="/linker/js/custom.js"></script>
+    <script src="/linker/js/form-validation.js"></script>
+    <script src="/js/morris-0.4.3.min.js"></script>
+    <!--<script src="/js/morris/chart-data-morris.js"></script> -->
+    <script src="/js/home.js"></script>
+	
+  </body>
+
+</html>
